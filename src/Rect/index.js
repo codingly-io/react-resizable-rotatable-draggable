@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { getLength, getAngle, getCursor } from '../utils'
 import StyledRect from './StyledRect'
+import { mapTouchToMouse } from '../touch'
 
 const zoomableMap = {
   'n': 't',
@@ -33,6 +34,10 @@ export default class Rect extends PureComponent {
   }
 
   setElementRef = (ref) => { this.$element = ref }
+
+  componentDidMount () {
+    mapTouchToMouse(this.$element)
+  }
 
   // Drag
   startDrag = (e) => {
