@@ -28,7 +28,8 @@ export default class Rect extends PureComponent {
     onDragStart: PropTypes.func,
     onDrag: PropTypes.func,
     onDragEnd: PropTypes.func,
-    parentRotateAngle: PropTypes.number
+    parentRotateAngle: PropTypes.number,
+    scale: PropTypes.number
   }
 
   setElementRef = (ref) => { this.$element = ref }
@@ -42,8 +43,8 @@ export default class Rect extends PureComponent {
       if (!this._isMouseDown) return // patch: fix windows press win key during mouseup issue
       e.stopImmediatePropagation()
       const { clientX, clientY } = e
-      const deltaX = clientX - startX
-      const deltaY = clientY - startY
+      const deltaX = (clientX - startX) / this.props.scale
+      const deltaY = (clientY - startY) / this.props.scale
       this.props.onDrag(deltaX, deltaY)
       startX = clientX
       startY = clientY
@@ -111,8 +112,8 @@ export default class Rect extends PureComponent {
       if (!this._isMouseDown) return // patch: fix windows press win key during mouseup issue
       e.stopImmediatePropagation()
       const { clientX, clientY } = e
-      const deltaX = clientX - startX
-      const deltaY = clientY - startY
+      const deltaX = (clientX - startX) / this.props.scale
+      const deltaY = (clientY - startY) / this.props.scale
       const alpha = Math.atan2(deltaY, deltaX)
       const deltaL = getLength(deltaX, deltaY)
       const isShiftKey = e.shiftKey
